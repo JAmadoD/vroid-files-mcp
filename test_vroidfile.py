@@ -157,8 +157,12 @@ class VroidFileTests(unittest.TestCase):
         finally:
             recipe.LOCK_IDENTITY = old
 
+
+class ServerTests(unittest.TestCase):
+    """Runs without any model files."""
+
     def test_server_lists_tools(self):
-        import server
+        from vroid_files_mcp import server
         tools = asyncio.run(server.server.list_tools())
         names = {t.name for t in tools}
         self.assertEqual(names, {"vroid_info", "vroid_list_textures", "vroid_export_layer", "vroid_export_textures",
