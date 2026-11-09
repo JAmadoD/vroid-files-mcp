@@ -6,3 +6,6 @@ __pycache__/
 *.vrm
 *.png
 *.jpg
+build/
+dist/
+*.egg-info/

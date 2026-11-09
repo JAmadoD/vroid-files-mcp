@@ -20,8 +20,8 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
-import recipe  # noqa: E402
-import vroidfile as vf  # noqa: E402
+from vroid_files_mcp import recipe  # noqa: E402
+from vroid_files_mcp import vroidfile as vf  # noqa: E402
 
 BASE = Path(os.environ.get("VROID_TEST_BASE", "")) if os.environ.get("VROID_TEST_BASE") else None
 OUTFIT = Path(os.environ.get("VROID_TEST_OUTFIT", "")) if os.environ.get("VROID_TEST_OUTFIT") else None

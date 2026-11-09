@@ -1,0 +1,78 @@
+AmadOpenSource License 1.0
+
+Copyright (c) Joshua Amado
+
+In short: you may use this software for anything, including to make money, such as using it in your business or selling what you make with it. You may not sell the software itself, charge others to use it, or turn it into a paid or closed product. You may share free changed versions, as long as they keep this license, publish their full source code, and credit Joshua Amado.
+
+1. Definitions
+
+"Software" means the source code, files and documentation released by the Licensor under this license.
+"Licensor" means Joshua Amado, the copyright holder named above.
+"You" means any person or organization using rights under this license.
+"Derivative" means any work based on the Software, in whole or in part, including changed versions, translations, forks, rebuilds that copy its code, and programs that include the Software.
+"Share" means to give a copy to anyone else, in any form, or to let anyone else use the Software or a Derivative over a network.
+"Output" means content that a user makes by running the Software, such as images, icons, user interfaces, models, sounds, code, text, results or reports, but not the Software itself.
+"Selling the Software" means asking for or receiving payment, money, or other financial benefit in exchange for the Software or a Derivative itself, or for access to it. It includes: selling or renting copies; charging for downloads, licenses, accounts, credits, features, upgrades or access; charging others to use it as a hosted service; putting it behind a paywall or subscription; including it in a product or service that is sold; and earning advertising revenue from offering it to others.
+
+2. What you may do
+
+Subject to this license, the Licensor grants you a worldwide, royalty-free, non-exclusive license to use, run, copy, change, and Share the Software and Derivatives, for any purpose, including commercial purposes, except Selling the Software.
+
+Examples that are allowed: a business running the Software for its own work or at a paid event; a consultant using it to produce results for a paying client; a game developer selling games, assets or other Output made with it; a school or company installing it for its own staff or students without charging them for it.
+
+3. Your Output is yours
+
+This license puts no limits on Output. You may use, sell, and publish Output, including in paid games and commercial projects. The Licensor claims no rights in your Output. Other rules may still apply to Output, such as the licenses of AI models you choose to run with the Software, and the rights of other people.
+
+4. No selling or paid rebuilds of the Software
+
+You may not do any of the following, with the Software or any Derivative:
+(a) Selling the Software, as defined in Section 1;
+(b) offering a paid, closed-source, or proprietary version, edition, plugin or rebuild of it;
+(c) using its code to make a product that competes with it and is not offered free of charge under this license.
+Asking for voluntary donations for a free Derivative is allowed, as long as every feature stays free for everyone.
+
+5. Share-alike: free versions stay free and open
+
+You may Share the Software and Derivatives for free. If you do:
+(a) it must be under this same license, and you may not add terms that take away any right this license gives;
+(b) you must publish its complete source code, free of charge, where anyone can get it without asking, for as long as you Share it, including when people only use it over a network;
+(c) you must keep all copyright, license and attribution notices, and include a copy of this license;
+(d) you must clearly mark that you changed it, and say what changed;
+(e) you must give credit in a visible place, such as the README or an About screen, in this form: "Based on <name of the original project> by Joshua Amado".
+
+6. Patents
+
+Each contributor grants you a royalty-free patent license for its contributions, limited to the uses this license allows. If you start a lawsuit claiming that the Software infringes a patent, all patent rights given to you under this license end on the date you file it.
+
+7. Names and trademarks
+
+This license does not give you any right to use the name Joshua Amado, the Licensor's project names or logos, except for the credit line in Section 5(e). Do not suggest that the Licensor endorses your version.
+
+8. Contributions
+
+Unless you say otherwise in writing when you send it, anything you contribute to the Licensor's project is licensed to the Licensor under the MIT License, in addition to being available under this license. This lets the Licensor keep and change the project freely.
+
+9. The Licensor keeps the choice
+
+The Licensor may also offer the Software under other terms. This license does not limit what the Licensor may do with their own work.
+
+10. Ending the license
+
+If you break this license, your rights under it end automatically. If you fix the problem within 30 days after you first learn of it, your rights come back, unless the Licensor ended them in writing before you fixed it. People who got copies from you keep their rights as long as they follow this license.
+
+11. Other parts
+
+Parts of the Software made by others, and AI model weights that the Software can download or run, keep their own licenses. This license covers only the Licensor's work and its Derivatives.
+
+12. No warranty
+
+The Software is provided "as is", without warranty of any kind, express or implied, including fitness for a particular purpose and non-infringement.
+
+13. No liability
+
+To the extent the law allows, the Licensor and contributors are not liable for any claim, damage or loss arising from the Software or its use, however caused.
+
+14. If a part does not hold
+
+If any part of this license cannot be enforced, the rest still applies, and the part that failed should be read as closely to its purpose as the law allows.

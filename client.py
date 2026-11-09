@@ -1,8 +1,10 @@
-"""Call the vroid-files MCP server over stdio from the shell (same path Claude Code uses).
+"""Call the vroid-files MCP server over stdio from the shell, the same way an MCP client does.
 
-  .venv\\Scripts\\python.exe client.py list
-  .venv\\Scripts\\python.exe client.py <tool> '<json arguments>'
-  .venv\\Scripts\\python.exe client.py <tool> @args.json
+  python client.py list
+  python client.py <tool> '<json arguments>'
+  python client.py <tool> @args.json
+
+Run it with the Python that has the requirements installed (for example the venv's python).
 """
 import asyncio
 import json
@@ -13,7 +15,7 @@ from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
 
 HERE = Path(__file__).resolve().parent
-PY = str(HERE / ".venv" / "Scripts" / "python.exe")
+PY = sys.executable
 SERVER = str(HERE / "server.py")
 
 

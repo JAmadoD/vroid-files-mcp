@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vroid-files-mcp"
+dynamic = ["version"]
+description = "MCP server that reads and patches VRoid Studio 2.x .vroid files"
+readme = "README.md"
+license = "LicenseRef-AmadOpenSource-1.0"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+authors = [{ name = "JAmadoD" }]
+keywords = ["vroid", "vrm", "mcp", "model-context-protocol", "3d"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Topic :: Multimedia :: Graphics :: 3D Modeling",
+]
+dependencies = [
+  "mcp==2.3.0",
+  "pillow>=10.0",
+  "numpy>=1.26",
+]
+
+[project.urls]
+Homepage = "https://github.com/JAmadoD/vroid-files-mcp"
+Issues = "https://github.com/JAmadoD/vroid-files-mcp/issues"
+
+[project.scripts]
+vroid-files-mcp = "vroid_files_mcp.server:main"
+
+[tool.setuptools]
+packages = ["vroid_files_mcp"]
+
+[tool.setuptools.dynamic]
+version = { attr = "vroid_files_mcp.__version__" }

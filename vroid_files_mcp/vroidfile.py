@@ -15,11 +15,12 @@ import hashlib
 import io
 import json
 import os
+import struct
 import zipfile
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from pbwire import enc_varint, fields, is_message, read_varint
+from .pbwire import enc_varint, fields, is_message, read_varint
 
 DATA = "v1model/data.bin"
 PNG_SIG = b"\x89PNG\r\n\x1a\n"
@@ -226,18 +227,28 @@ def _find_layer(data, layer_guid):
     return hits[0]
 
 
-def export_layer(path, layer_guid, out_png) -> dict:
+def _check_png_out(out_png, overwrite=False) -> Path:
+    """Exports only ever write .png files, and never replace an existing file unless overwrite is set."""
+    out_png = Path(out_png)
+    if out_png.suffix.lower() != ".png":
+        raise ValueError(f"export target must end in .png: {out_png}")
+    if out_png.exists() and not overwrite:
+        raise FileExistsError(f"{out_png} exists; pick a new name or set overwrite")
+    return out_png
+
+
+def export_layer(path, layer_guid, out_png, overwrite=False) -> dict:
     _, data = load(path)
     t, l = _find_layer(data, layer_guid)
     if not l.chain:
         raise ValueError("that layer has no image (empty layer)")
-    out_png = Path(out_png)
+    out_png = _check_png_out(out_png, overwrite)
     out_png.parent.mkdir(parents=True, exist_ok=True)
     out_png.write_bytes(l.png(data))
     return {"png": str(out_png), "bytes": l.png_size, "texture_id": t.id, "used_as": t.used_as}
 
 
-def export_all(path, out_dir, compare_to=None) -> list:
+def export_all(path, out_dir, compare_to=None, overwrite=False) -> list:
     _, data = load(path)
     out_dir = Path(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -246,11 +257,12 @@ def export_all(path, out_dir, compare_to=None) -> list:
         keep = {r["layer_guid"] for r in list_textures(path, compare_to) if r.get("changed_vs_compare")}
     done = []
     for t in textures(data):
-        tag = (t.used_as[0] if t.used_as else "unused").replace("/", "_")[:60]
+        tag = "".join(c if c.isalnum() or c in "-_." else "_" for c in (t.used_as[0] if t.used_as else "unused"))[:60]
         for l in t.layers:
             if not l.chain or (keep is not None and l.guid not in keep):
                 continue
-            p = out_dir / f"{tag}__{l.name.replace(' ', '_')}__{l.guid[:8]}.png"
+            safe = "".join(c if c.isalnum() or c in "-_." else "_" for c in l.name)
+            p = _check_png_out(out_dir / f"{tag}__{safe}__{l.guid[:8]}.png", overwrite)
             p.write_bytes(l.png(data))
             done.append({"png": str(p), "layer_guid": l.guid, "texture_id": t.id, "used_as": t.used_as})
     return done
@@ -313,7 +325,6 @@ def replace_layer(src, dst, layer_guid, png_path) -> dict:
 # Recipe block (e.g. 5.5.9): repeated field 2 = parameter {1 name, 4 {1 value_id}, 6 {1 texture_id}}.
 # Value table entry: {1 value_id, 2 '', 3 {1 r, 2 g, 3 b, 4 a} as fixed32 floats}.
 
-import struct  # noqa: E402
 
 COLOR_SUFFIXES = ("MaterialColor", "MaterialShadeColor", "MaterialEmissionColor", "MaterialOutlineColor",
                   "OverlayColor")

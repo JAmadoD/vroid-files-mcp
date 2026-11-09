@@ -16,8 +16,8 @@ import os
 import re
 import struct
 
-from pbwire import enc_varint, fields, is_message
-from vroidfile import (PNG_SIG, _check_dst, _hex_to_rgba, _is_hex_id, _replace, _str, _write_copy, load,
+from .pbwire import enc_varint, fields, is_message
+from .vroidfile import (PNG_SIG, _check_dst, _hex_to_rgba, _is_hex_id, _replace, _str, _write_copy, load,
                        textures)
 
 KINDS = {3: "choice", 4: "color", 5: "slider", 6: "image", 7: "flag", 8: "number", 9: "template"}
