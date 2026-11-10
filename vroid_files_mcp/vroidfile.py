@@ -60,9 +60,15 @@ class Texture:
     used_as: list  # recipe parameter names that point at this texture id
 
 
+MAX_UNPACKED = 1 << 30  # 1 GB; a normal .vroid unpacks to far less
+
+
 def load(path) -> tuple[dict, bytes]:
     with zipfile.ZipFile(path) as z:
-        members = {i.filename: z.read(i.filename) for i in z.infolist()}
+        infos = z.infolist()
+        if sum(i.file_size for i in infos) > MAX_UNPACKED:
+            raise ValueError(f"{path} unpacks to more than 1 GB; not a normal .vroid file")
+        members = {i.filename: z.read(i.filename) for i in infos}
     if DATA not in members:
         raise ValueError(f"{path} has no {DATA}; not a VRoid 2.x file")
     return members, members[DATA]

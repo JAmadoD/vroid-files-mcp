@@ -168,8 +168,22 @@ class ServerTests(unittest.TestCase):
         self.assertEqual(names, {"vroid_info", "vroid_list_textures", "vroid_export_layer", "vroid_export_textures",
                                  "vroid_replace_layer", "vroid_item_colors", "vroid_set_item_colors",
                                  "vroid_list_params", "vroid_set_params"})
-        with self.assertRaises(ValueError):
+        from mcp.server.mcpserver.exceptions import ToolError
+        here = str(HERE / "server.py")
+        with self.assertRaises(ToolError):
             server._p("relative/file.vroid")
+        saved = server.ALLOWED_ROOTS
+        try:
+            server.ALLOWED_ROOTS = []
+            with self.assertRaisesRegex(ToolError, "set VROID_ALLOWED_ROOTS"):
+                server._p(here)
+            server.ALLOWED_ROOTS = [str(HERE / "vroid_files_mcp")]
+            with self.assertRaisesRegex(ToolError, "outside VROID_ALLOWED_ROOTS"):
+                server._p(here)
+            server.ALLOWED_ROOTS = [str(HERE)]
+            self.assertEqual(server._p(here), Path(here).resolve())
+        finally:
+            server.ALLOWED_ROOTS = saved
 
 
 if __name__ == "__main__":

@@ -8,6 +8,7 @@ Run it with the Python that has the requirements installed (for example the venv
 """
 import asyncio
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -20,7 +21,9 @@ SERVER = str(HERE / "server.py")
 
 
 async def run(tool, args):
-    async with stdio_client(StdioServerParameters(command=PY, args=[SERVER])) as (r, w):
+    # The SDK passes only a few safe variables to the server; add the VROID_ settings from this shell.
+    env = {k: v for k, v in os.environ.items() if k.startswith("VROID_")}
+    async with stdio_client(StdioServerParameters(command=PY, args=[SERVER], env=env)) as (r, w):
         async with ClientSession(r, w) as s:
             await s.initialize()
             if tool == "list":

@@ -6,8 +6,9 @@ Open the written copy in VRoid (Open on the model selection screen) to see the r
 
 Run:  vroid-files-mcp   (after pip install), or python -m vroid_files_mcp, or python server.py from the repo
 
-Optional environment variables:
-  VROID_ALLOWED_ROOTS    folders the server may read and write, separated by ';' (default: any absolute path)
+Environment variables:
+  VROID_ALLOWED_ROOTS    required: folders the server may read and write, separated by ';'.
+                         Every tool call is refused until it is set.
   VROID_PROTECTED_NAMES  comma-separated name parts that are never written, e.g. MY_BASE_MODEL
   VROID_LOCK_IDENTITY=1  face, body, hair and skin parameters need unlock_identity=true
 """
@@ -17,6 +18,7 @@ import os
 from pathlib import Path
 
 from mcp.server.mcpserver import MCPServer
+from mcp.server.mcpserver.exceptions import ToolError
 
 from . import __version__, recipe
 from . import vroidfile as vf
@@ -40,12 +42,15 @@ server = MCPServer(
 
 
 def _p(path: str, must_exist: bool = True) -> Path:
+    # ToolError: the client sees these messages; other exceptions reach it only as a generic error.
     p = Path(path)
     if not p.is_absolute():
-        raise ValueError(f"use an absolute path: {path}")
+        raise ToolError(f"use an absolute path: {path}")
+    if not ALLOWED_ROOTS:
+        raise ToolError("set VROID_ALLOWED_ROOTS to the folder(s) that hold your .vroid files")
     p = p.resolve()
-    if ALLOWED_ROOTS and not any(p.is_relative_to(Path(r).resolve()) for r in ALLOWED_ROOTS):
-        raise ValueError(f"path is outside VROID_ALLOWED_ROOTS: {p}")
+    if not any(p.is_relative_to(Path(r).resolve()) for r in ALLOWED_ROOTS):
+        raise ToolError(f"path is outside VROID_ALLOWED_ROOTS: {p}")
     if must_exist and not p.exists():
         raise FileNotFoundError(str(p))
     return p

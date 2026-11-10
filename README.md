@@ -36,7 +36,7 @@ With [uv](https://docs.astral.sh/uv/) installed, your MCP client can start the s
   "mcpServers": {
     "vroid-files": {
       "command": "uvx",
-      "args": ["--from", "git+https://github.com/JAmadoD/vroid-files-mcp", "vroid-files-mcp"],
+      "args": ["--from", "git+https://github.com/JAmadoD/vroid-files-mcp@v0.3.0", "vroid-files-mcp"],
       "env": { "VROID_ALLOWED_ROOTS": "C:\\Users\\you\\Documents\\VRoid" }
     }
   }
@@ -90,19 +90,22 @@ claude mcp add vroid-files -e VROID_ALLOWED_ROOTS=C:\Users\you\Documents\VRoid -
 
 ### Settings (environment variables)
 
-Set `VROID_ALLOWED_ROOTS` first. Without it, the server accepts any absolute path your MCP client sends.
+Set `VROID_ALLOWED_ROOTS` first. The server refuses every call until it is set, and it never reads or writes outside those folders.
 
 | Variable | Effect |
 |---|---|
-| `VROID_ALLOWED_ROOTS` | Folders the server may read and write, separated by `;`. Recommended. Default: any absolute path. |
+| `VROID_ALLOWED_ROOTS` | Required. Folders the server may read and write, separated by `;`. |
 | `VROID_PROTECTED_NAMES` | Comma-separated name parts that are never written, for example `MY_BASE_MODEL`. |
 | `VROID_LOCK_IDENTITY` | Set to `1` to lock face, body, hair and skin parameters. Changing them then needs `unlock_identity: true`. Useful when only outfits should change. |
 
 ### Safety rules built in
 
 - Every write creates a new `.vroid` file. The source is never changed, and an existing file is never replaced.
-- Exports only write `.png` files and never replace an existing file unless `overwrite` is true.
+- Exports only write `.png` files and never replace an existing file unless `overwrite` is true. Even then, only files inside `VROID_ALLOWED_ROOTS` can be replaced.
 - Each write is re-read and checked before it is kept.
+- Files that unpack to more than 1 GB are refused.
+
+Found a security problem? See [SECURITY.md](SECURITY.md).
 
 ## Typical loop
 
